@@ -172,6 +172,9 @@ class Config(object):
     # Non-maximum suppression threshold for detection
     DETECTION_NMS_THRESHOLD = 0.3
 
+    # Optimizer to use. Choose between SGD and ADAM
+    OPTIMIZER = 'SGD'
+    
     # Learning rate and momentum
     # The Mask RCNN paper uses lr=0.02, but on TensorFlow it causes
     # weights to explode. Likely due to differences in optimzer
