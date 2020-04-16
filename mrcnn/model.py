@@ -1039,6 +1039,7 @@ def build_fpn_mask_graph(rois, feature_maps, image_meta,
                            name="mrcnn_mask_deconv")(x)
     x = KL.TimeDistributed(KL.Conv2D(num_classes, (1, 1), strides=1, activation="sigmoid"),
                            name="mrcnn_mask")(x)
+    x = KL.Activation('relu')(x)
     
     if mask_shape[0] > 28:
         if mask_shape[0] % 28 != 0:
@@ -1046,7 +1047,7 @@ def build_fpn_mask_graph(rois, feature_maps, image_meta,
 
         repetitions = int(np.log(mask_shape[0]//28)/np.log(2))
 
-        for i in range(1, repetitions):
+        for i in range(repetitions):
             x = KL.TimeDistributed(KL.Conv2DTranspose(256, (2, 2), strides=2, activation="relu"),
                            name="mrcnn_mask_deconv_{0}".format(i))(x)
             x = KL.TimeDistributed(KL.Conv2D(num_classes, (1, 1), strides=1, activation="sigmoid"),
