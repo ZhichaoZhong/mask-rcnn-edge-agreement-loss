@@ -59,7 +59,7 @@ class ConvertorLayer(KL.Layer):
         self.config = config
 
     def call(self, inputs):
-        decoded_image_input = tf.decode_base64(inputs)
+        decoded_image_input = tf.io.decode_base64(inputs)
         image_input = K.map_fn(lambda s: tf.image.decode_jpeg(s[0], channels=3), decoded_image_input, dtype='uint8')
         image_input = K.cast(image_input - self.config.MEAN_PIXEL, 'float32')
 
